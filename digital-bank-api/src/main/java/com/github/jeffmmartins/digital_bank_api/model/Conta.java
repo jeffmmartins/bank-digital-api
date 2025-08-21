@@ -1,6 +1,12 @@
 package com.github.jeffmmartins.digital_bank_api.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "tb_conta")
 public class Conta {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Integer numeroDaConta;
     private Integer numeroDaAgencia;
