@@ -1,10 +1,15 @@
 package com.github.jeffmmartins.digital_bank_api.model;
 
 import com.github.jeffmmartins.digital_bank_api.model.enums.TipoTransacao;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "tb_transacao")
 public class Transacao {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Double valorDaTransacao;
     private TipoTransacao tipoDeTransacao;
