@@ -11,13 +11,17 @@ public class Conta {
     private Integer numeroDaConta;
     private Integer numeroDaAgencia;
     private Double saldoDaConta;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cliente_id", nullable = false)
+    private Cliente cliente;
 
     public Conta(){}
 
-    public Conta(Integer numeroDaConta, Integer numeroDaAgencia, Double saldoDaConta) {
+    public Conta(Integer numeroDaConta, Integer numeroDaAgencia, Double saldoDaConta, Cliente cliente) {
         this.numeroDaConta = numeroDaConta;
         this.numeroDaAgencia = numeroDaAgencia;
         this.saldoDaConta = saldoDaConta;
+        this.cliente = cliente;
     }
 
     public Long getId() {

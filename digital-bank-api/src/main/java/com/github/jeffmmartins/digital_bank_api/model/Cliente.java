@@ -2,6 +2,8 @@ package com.github.jeffmmartins.digital_bank_api.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "tb_cliente")
 public class Cliente {
@@ -10,6 +12,8 @@ public class Cliente {
     private Long id;
     private String nome;
     private String cpf;
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Conta> conta;
 
     public Cliente() {
     }
