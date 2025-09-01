@@ -30,4 +30,8 @@ public class TransacaoService {
         //Salva no banco de dados a conta com o novo valor do saldo.
         return contaRepository.save(conta);
     }
+
+    public Conta depositarDinheiro(Long id, double valorDoDeposito){
+
+    }
 }
