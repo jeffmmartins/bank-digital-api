@@ -4,8 +4,11 @@ import com.github.jeffmmartins.digital_bank_api.model.Cliente;
 import com.github.jeffmmartins.digital_bank_api.model.Conta;
 import com.github.jeffmmartins.digital_bank_api.repository.ClienteRepository;
 import com.github.jeffmmartins.digital_bank_api.repository.ContaRepository;
+import jakarta.persistence.LockModeType;
 import lombok.AllArgsConstructor;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
@@ -15,6 +18,8 @@ public class TransacaoService {
 
     private final ClienteRepository clienteRepository;
     private final ContaRepository contaRepository;
+
+
 
     public Conta sacarDinheiro(Long idConta, double valorDoSaque){
         Conta conta = contaRepository.findById(idConta)
@@ -31,7 +36,20 @@ public class TransacaoService {
         return contaRepository.save(conta);
     }
 
+    @Transactional
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
     public Conta depositarDinheiro(Long id, double valorDoDeposito){
 
+        if (valorDoDeposito <= 0) {
+            throw new IllegalArgumentException("O valor do depósito deve ser maior que zero.");
+        }
+
+        Conta conta = contaRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Conta não cadastrada"));
+
+        //Atualizando o saldo da conta acrescentado o valor depositado.
+        conta.setSaldoDaConta(conta.getSaldoDaConta()+valorDoDeposito);
+
+        return contaRepository.save(conta);
     }
 }
