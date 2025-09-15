@@ -1,39 +1,52 @@
-Digital Bank API - Um Projeto de Estudo em Java
-Bem-vindo(a) ao meu projeto pessoal! Este repositório é uma prova do meu aprendizado prático e da aplicação de conceitos de back-end com Java e Spring Boot. 
-O objetivo é construir uma API que simula as funcionalidades essenciais de um banco digital.
+# Digital Bank API - Um Projeto de Estudo em Java
+**Status:** Em Desenvolvimento
 
-O projeto está atualmente em desenvolvimento. O código reflete uma arquitetura planejada e o foco em boas práticas, como Clean Code e o uso de padrões de design.
+Este projeto é uma **API REST em Java com Spring Boot** que estou desenvolvendo ativamente como parte da minha jornada de estudos em back-end.  
+O objetivo é criar um sistema para **simular um banco digital**, aplicando e consolidando conhecimentos em tecnologias e boas práticas de mercado.
 
-Tecnologias e Ferramentas
-Java 17+: A linguagem de programação base do projeto.
+A cada novo conceito ou módulo que aprendo em **Spring Framework**, **Spring Data JPA** e **desenvolvimento de APIs**, eu os implemento progressivamente neste projeto.  
+Isso me permite colocar a teoria em prática imediatamente, enfrentar desafios reais de desenvolvimento e construir um **portfólio funcional**.
 
-Spring Boot: Framework essencial para agilizar o desenvolvimento da API.
+---
 
-Spring Data JPA: Para a camada de persistência de dados.
+## 🚀 Tecnologias e Ferramentas Utilizadas
+- **Linguagem de Programação:** Java
+- **Framework:** Spring Boot (Spring Web e Spring Data JPA)
+- **Banco de Dados:** H2 Database (em memória, para desenvolvimento e testes)
+- **Mapeamento ORM:** JPA (via Spring Data JPA)
+- **Gerenciamento de Dependências:** Maven
+- **Auxiliares:** Lombok (para um código mais limpo)
 
-H2 Database: Banco de dados em memória, ideal para desenvolvimento.
+---
 
-Lombok: Para um código mais limpo e legível.
+## 🏗️ Arquitetura e Estrutura
 
-Maven: Gerenciador de dependências.
+O projeto segue a **arquitetura em camadas**, garantindo a separação de responsabilidades.
 
-Arquitetura e Estrutura
-O projeto segue a arquitetura em camadas, garantindo a separação de responsabilidades. A estrutura atual é a seguinte:
+### Estrutura Atual:
+- **model:**  
+  Contém as classes de entidade que representam o domínio do negócio (*Cliente, Conta, Transacao*) e seus tipos (*enums*), com os relacionamentos mapeados.
 
-model: Contém as classes de entidade que representam o domínio do negócio (Cliente, Conta, Transacao) e seus tipos (enums).
+- **repository:**  
+  Camada de acesso a dados. As interfaces (*ClienteRepository, ContaRepository, etc.*) usam o **Spring Data JPA** para se comunicar com o banco de dados.
 
-repository: Camada de acesso a dados. As interfaces (ClienteRepository, ContaRepository, etc.) usam o Spring Data JPA para se comunicar com o banco de dados.
+- **service:**  
+  Camada da lógica de negócio (em construção).  
+  Aqui são implementadas as regras e validações das operações financeiras (**saque, depósito, transferência, etc.**).
 
-service: Camada da lógica de negócio. Atualmente em construção, esta camada é onde as regras e validações das operações financeiras (como saque e depósito) são implementadas.
+- **resources:**  
+  Diretório de recursos que inclui o arquivo de configuração **application.yml**, definindo o comportamento do banco de dados e outras propriedades.
 
-resources: Diretório de recursos que inclui o arquivo de configuração application.yml, definindo o comportamento do banco de dados e outras propriedades.
+---
 
-Próximos Passos
-[ ] Finalizar a camada de serviço com a lógica de todas as operações (saque, depósito, transferência, etc.).
+## 📌 Próximos Passos
+- [ ] Finalizar a camada de serviço com a lógica de todas as operações (*saque, depósito, transferência, etc.*).
+- [ ] Criar a camada de controller para expor os endpoints da API REST.
+- [ ] Implementar a documentação da API com **Swagger/OpenAPI**.
 
-[ ] Criar a camada de controller para expor os endpoints da API REST.
+---
 
-[ ] Implementar a documentação da API com Swagger/OpenAPI.
-
-Sobre Mim
-Este projeto é um reflexo do meu comprometimento em me tornar um desenvolvedor back-end Java. Estou em constante evolução e aberto a feedbacks e sugestões. Sinta-se à vontade para explorar o código.
+## 👨‍💻 Sobre o Autor
+Este projeto é um reflexo do meu **comprometimento em me tornar um desenvolvedor back-end Java**.  
+Estou em constante evolução e **aberto a feedbacks e sugestões**.  
+Sinta-se à vontade para explorar o código.  
