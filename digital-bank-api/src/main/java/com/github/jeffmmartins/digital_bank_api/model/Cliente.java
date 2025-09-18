@@ -17,14 +17,14 @@ import java.util.List;
 public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Setter(AccessLevel.NONE) // bloquear o setter para o id
+    @Setter(AccessLevel.NONE)
     private Long id;
     private String nome;
     @Column(unique = true,nullable = false)
-    @Setter(AccessLevel.NONE) // bloquear o setter para o cpf
+    @Setter(AccessLevel.NONE)
     private String cpf;
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Setter(AccessLevel.NONE) // bloquear o setter para o conta
+    @Setter(AccessLevel.NONE)
     private List<Conta> contas = new ArrayList<>();
 
     public Cliente(String nome, String cpf) {

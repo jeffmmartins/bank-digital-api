@@ -1,54 +1,35 @@
 package com.github.jeffmmartins.digital_bank_api.model;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "tb_conta")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Conta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
     private Long id;
-    private Integer numeroDaConta;
-    private Integer numeroDaAgencia;
-    private Double saldoDaConta;
+    @Setter(AccessLevel.NONE)
+    private String numeroDaConta;
+    @Setter(AccessLevel.NONE)
+    private String numeroDaAgencia;
+    private Double saldoDaConta = 0.0;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id", nullable = false)
+    @Setter(AccessLevel.NONE)
     private Cliente cliente;
 
-    public Conta(){}
-
-    public Conta(Integer numeroDaConta, Integer numeroDaAgencia, Double saldoDaConta, Cliente cliente) {
+    public Conta(String numeroDaConta, String numeroDaAgencia, Double saldoDaConta, Cliente cliente) {
         this.numeroDaConta = numeroDaConta;
         this.numeroDaAgencia = numeroDaAgencia;
         this.saldoDaConta = saldoDaConta;
         this.cliente = cliente;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Integer getNumeroDaConta() {
-        return numeroDaConta;
-    }
-
-    public Integer getNumeroDaAgencia() {
-        return numeroDaAgencia;
-    }
-
-    public Double getSaldoDaConta() {
-        return saldoDaConta;
-    }
-
-    public void setNumeroDaConta(Integer numeroDaConta) {
-        this.numeroDaConta = numeroDaConta;
-    }
-
-    public void setNumeroDaAgencia(Integer numeroDaAgencia) {
-        this.numeroDaAgencia = numeroDaAgencia;
-    }
-
-    public void setSaldoDaConta(Double saldoDaConta) {
-        this.saldoDaConta = saldoDaConta;
     }
 }
