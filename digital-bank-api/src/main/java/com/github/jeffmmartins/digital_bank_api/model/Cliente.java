@@ -15,14 +15,18 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class Cliente {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private Long id;
+
     private String nome;
+
     @Column(unique = true,nullable = false)
     @Setter(AccessLevel.NONE)
     private String cpf;
+
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     @Setter(AccessLevel.NONE)
     private List<Conta> contas = new ArrayList<>();
