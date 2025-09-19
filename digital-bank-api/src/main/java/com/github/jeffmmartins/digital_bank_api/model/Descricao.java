@@ -19,9 +19,12 @@ public class Descricao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private Long id;
+
     private String titulo;
+
     private String descricao;
-    @OneToMany(mappedBy = "descricao")
+
+    @OneToMany(mappedBy = "descricao", fetch = FetchType.LAZY)
     @Setter(AccessLevel.NONE)
     private List<Transacao> transacoes = new ArrayList<>();
 

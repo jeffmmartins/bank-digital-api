@@ -20,15 +20,22 @@ public class Transacao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private Long id;
+
     @Setter(AccessLevel.NONE)
     private Double valorDaTransacao;
+
     @Setter(AccessLevel.NONE)
+    @Enumerated(EnumType.STRING)
     private TipoTransacao tipoDeTransacao;
+
     @Setter(AccessLevel.NONE)
     private LocalDateTime dataDaTransacao;
+
     @ManyToOne
     @JoinColumn(name = "conta_id", nullable = false)
+    @Setter(AccessLevel.NONE)
     private Conta conta;
+
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name = "descricao_id")
     private Descricao descricao;

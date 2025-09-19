@@ -18,15 +18,20 @@ public class Conta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private Long id;
+
     @Setter(AccessLevel.NONE)
     private String numeroDaConta;
+
     @Setter(AccessLevel.NONE)
     private String numeroDaAgencia;
+
     private Double saldoDaConta = 0.0;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id", nullable = false)
     @Setter(AccessLevel.NONE)
     private Cliente cliente;
+
     @OneToMany(mappedBy = "conta", cascade = CascadeType.ALL, orphanRemoval = true)
     @Setter(AccessLevel.NONE)
     private List<Transacao> transacoes;
