@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name = "tb_conta")
 @Getter
@@ -25,11 +27,13 @@ public class Conta {
     @JoinColumn(name = "cliente_id", nullable = false)
     @Setter(AccessLevel.NONE)
     private Cliente cliente;
+    @OneToMany(mappedBy = "conta", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Setter(AccessLevel.NONE)
+    private List<Transacao> transacoes;
 
-    public Conta(String numeroDaConta, String numeroDaAgencia, Double saldoDaConta, Cliente cliente) {
+    public Conta(String numeroDaConta, String numeroDaAgencia, Cliente cliente) {
         this.numeroDaConta = numeroDaConta;
         this.numeroDaAgencia = numeroDaAgencia;
-        this.saldoDaConta = saldoDaConta;
         this.cliente = cliente;
     }
 }
