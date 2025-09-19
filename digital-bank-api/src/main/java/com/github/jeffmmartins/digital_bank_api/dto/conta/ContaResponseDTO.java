@@ -8,7 +8,6 @@ import lombok.Setter;
 public class ContaResponseDTO {
 
     private Long id;
-    private String numeroDaConta;
-    private String numeroDaAgencia;
+    private Double saldoDaConta;
 
 }

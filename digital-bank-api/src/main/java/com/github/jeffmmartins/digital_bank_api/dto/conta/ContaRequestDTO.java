@@ -9,4 +9,5 @@ public class ContaRequestDTO {
 
     private String numeroDaConta;
     private String numeroDaAgencia;
+    private Double saldoDaConta;
 }
