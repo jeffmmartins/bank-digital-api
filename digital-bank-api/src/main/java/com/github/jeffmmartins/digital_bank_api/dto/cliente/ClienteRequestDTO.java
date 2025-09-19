@@ -1,11 +1,11 @@
-package com.github.jeffmmartins.digital_bank_api.dto;
+package com.github.jeffmmartins.digital_bank_api.dto.cliente;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class ClienteResquestDTO {
+public class ClienteRequestDTO {
 
     private String nome;
     private String cpf;
