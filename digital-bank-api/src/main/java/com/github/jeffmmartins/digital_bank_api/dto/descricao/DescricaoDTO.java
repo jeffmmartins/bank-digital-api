@@ -5,7 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class DescricaoRequestDTO {
+public class DescricaoDTO {
 
-
+    private Long id;
+    private String titulo;
+    private String descricao;
 }
