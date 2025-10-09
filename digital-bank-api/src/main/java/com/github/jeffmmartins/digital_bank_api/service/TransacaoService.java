@@ -20,7 +20,7 @@ public class TransacaoService {
     private final ContaRepository contaRepository;
 
 
-
+    @Transactional
     public Conta sacarDinheiro(Long idConta, double valorDoSaque){
         Conta conta = contaRepository.findById(idConta)
                 .orElseThrow(() -> new IllegalArgumentException("Conta não encontrada."));
