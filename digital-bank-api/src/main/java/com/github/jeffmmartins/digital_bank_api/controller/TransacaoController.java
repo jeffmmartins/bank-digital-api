@@ -1,9 +1,17 @@
 package com.github.jeffmmartins.digital_bank_api.controller;
 
+import com.github.jeffmmartins.digital_bank_api.dto.transacao.DepositoRequestDTO;
 import com.github.jeffmmartins.digital_bank_api.dto.transacao.SaqueRequestDTO;
 import com.github.jeffmmartins.digital_bank_api.dto.transacao.SaqueResponseDTO;
+import com.github.jeffmmartins.digital_bank_api.dto.transacao.TransacaoResponseDTO;
 import com.github.jeffmmartins.digital_bank_api.model.Conta;
 import com.github.jeffmmartins.digital_bank_api.service.TransacaoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +26,7 @@ import java.time.LocalDateTime;
 @RestController
 @RequestMapping("/api/transacoes")
 @AllArgsConstructor
+@Tag(name = "Transações", description = "Endpoints para gerenciar transações bancárias")
 public class TransacaoController {
 
     private final TransacaoService transacaoService;
@@ -29,12 +38,16 @@ public class TransacaoController {
      * @return Resposta com os detalhes da operação
      */
     @PostMapping("/saque")
+    @Operation(summary = "Realizar saque", description = "Realiza um saque na conta especificada")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Saque realizado com sucesso"),
+        @ApiResponse(responseCode = "400", description = "Dados inválidos ou saldo insuficiente", 
+                    content = @Content(schema = @Schema(implementation = String.class))),
+        @ApiResponse(responseCode = "404", description = "Conta não encontrada")
+    })
     public ResponseEntity<SaqueResponseDTO> realizarSaque(@Valid @RequestBody SaqueRequestDTO saqueDTO) {
-        // Converte o valor para double (temporário até adaptar o service para BigDecimal)
-        double valorSaque = saqueDTO.getValor().doubleValue();
-        
         // Chama o serviço para realizar o saque
-        Conta contaAtualizada = transacaoService.sacarDinheiro(saqueDTO.getContaId(), valorSaque);
+        Conta contaAtualizada = transacaoService.sacarDinheiro(saqueDTO);
         
         // Cria o DTO de resposta
         SaqueResponseDTO responseDTO = new SaqueResponseDTO();
@@ -50,25 +63,25 @@ public class TransacaoController {
     /**
      * Endpoint para realizar um depósito
      * 
-     * @param contaId ID da conta para depósito
-     * @param valor Valor a ser depositado
+     * @param depositoDTO Dados do depósito a ser realizado
      * @return Resposta com os detalhes da operação
      */
-    @PostMapping("/deposito/{contaId}")
-    public ResponseEntity<SaqueResponseDTO> realizarDeposito(
-            @PathVariable Long contaId,
-            @RequestParam BigDecimal valor) {
-        
-        // Converte o valor para double (temporário até adaptar o service para BigDecimal)
-        double valorDeposito = valor.doubleValue();
-        
+    @PostMapping("/deposito")
+    @Operation(summary = "Realizar depósito", description = "Realiza um depósito na conta especificada")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Depósito realizado com sucesso"),
+        @ApiResponse(responseCode = "400", description = "Dados inválidos", 
+                    content = @Content(schema = @Schema(implementation = String.class))),
+        @ApiResponse(responseCode = "404", description = "Conta não encontrada")
+    })
+    public ResponseEntity<SaqueResponseDTO> realizarDeposito(@Valid @RequestBody DepositoRequestDTO depositoDTO) {
         // Chama o serviço para realizar o depósito
-        Conta contaAtualizada = transacaoService.depositarDinheiro(contaId, valorDeposito);
+        Conta contaAtualizada = transacaoService.depositarDinheiro(depositoDTO);
         
         // Cria o DTO de resposta
         SaqueResponseDTO responseDTO = new SaqueResponseDTO();
         responseDTO.setContaId(contaAtualizada.getId());
-        responseDTO.setValorSacado(valor); // Aqui seria o valor depositado
+        responseDTO.setValorSacado(depositoDTO.getValor()); // Aqui seria o valor depositado
         responseDTO.setSaldoAtual(BigDecimal.valueOf(contaAtualizada.getSaldoDaConta()));
         responseDTO.setDataTransacao(LocalDateTime.now());
         responseDTO.setMensagem("Depósito realizado com sucesso");

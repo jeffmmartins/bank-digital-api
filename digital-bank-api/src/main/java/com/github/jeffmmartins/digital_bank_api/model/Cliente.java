@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,5 +35,18 @@ public class Cliente {
     public Cliente(String nome, String cpf) {
         this.nome = nome;
         this.cpf = cpf;
+    }
+
+    public void setCpf(String s) {
+    }
+
+    public void setEmail(String mail) {
+    }
+
+    public void setDataDeNascimento(LocalDate of) {
+    }
+
+    public void setTelefone(String s) {
+
     }
 }
