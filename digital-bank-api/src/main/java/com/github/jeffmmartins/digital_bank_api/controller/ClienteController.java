@@ -67,11 +67,9 @@ public class ClienteController {
             @ApiResponse(responseCode = "400", description = "Dados inválidos")
     })
     public ResponseEntity<Cliente> atualizar(@PathVariable Long id, @Valid @RequestBody Cliente cliente) {
-        if (!clienteService.existePorId(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        cliente.setId(id);
-        return ResponseEntity.ok(clienteService.salvar(cliente));
+        return clienteService.atualizar(id, cliente)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
