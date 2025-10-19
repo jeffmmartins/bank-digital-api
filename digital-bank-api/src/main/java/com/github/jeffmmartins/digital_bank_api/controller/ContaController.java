@@ -81,11 +81,9 @@ public class ContaController {
             @ApiResponse(responseCode = "400", description = "Dados inválidos")
     })
     public ResponseEntity<Conta> atualizar(@PathVariable Long id, @Valid @RequestBody Conta conta) {
-        if (!contaService.existePorId(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        conta.setId(id);
-        return ResponseEntity.ok(contaService.salvar(conta));
+        return contaService.atualizar(id, conta)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")

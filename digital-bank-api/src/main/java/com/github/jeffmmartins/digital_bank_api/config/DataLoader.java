@@ -22,35 +22,19 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        // Cria clientes de teste
-        Cliente cliente1 = new Cliente();
-        cliente1.setNome("João Silva");
-        cliente1.setCpf("123.456.789-00");
-        cliente1.setEmail("joao@email.com");
-        cliente1.setDataDeNascimento(LocalDate.of(1990, 1, 15));
-        cliente1.setTelefone("(11) 98765-4321");
+        // Cria clientes de teste usando o construtor (cpf sem setter)
+        Cliente cliente1 = new Cliente("João Silva", "123.456.789-00");
         cliente1 = clienteRepository.save(cliente1);
 
-        Cliente cliente2 = new Cliente();
-        cliente2.setNome("Maria Oliveira");
-        cliente2.setCpf("987.654.321-00");
-        cliente2.setEmail("maria@email.com");
-        cliente2.setDataDeNascimento(LocalDate.of(1985, 5, 20));
-        cliente2.setTelefone("(11) 91234-5678");
+        Cliente cliente2 = new Cliente("Maria Oliveira", "987.654.321-00");
         cliente2 = clienteRepository.save(cliente2);
 
-        // Cria contas de teste
-        Conta conta1 = new Conta();
-        conta1.setCliente(cliente1);
-        conta1.setNumeroDaConta("1001");
-        conta1.setAgencia("0001");
+        // Cria contas de teste usando o construtor (campos imutáveis via setter)
+        Conta conta1 = new Conta("1001", "0001", cliente1);
         conta1.setSaldoDaConta(1000.0);
         contaRepository.save(conta1);
 
-        Conta conta2 = new Conta();
-        conta2.setCliente(cliente2);
-        conta2.setNumeroDaConta("2002");
-        conta2.setAgencia("0001");
+        Conta conta2 = new Conta("2002", "0001", cliente2);
         conta2.setSaldoDaConta(2500.0);
         contaRepository.save(conta2);
     }
