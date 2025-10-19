@@ -42,4 +42,12 @@ public class Conta {
         this.numeroDaAgencia = numeroDaAgencia;
         this.cliente = cliente;
     }
+
+    // Adiciona um construtor com saldo inicial para facilitar carga de dados
+    public Conta(String numeroDaConta, String numeroDaAgencia, Cliente cliente, Double saldoInicial) {
+        this.numeroDaConta = numeroDaConta;
+        this.numeroDaAgencia = numeroDaAgencia;
+        this.cliente = cliente;
+        this.saldoDaConta = saldoInicial != null ? saldoInicial : 0.0;
+    }
 }
