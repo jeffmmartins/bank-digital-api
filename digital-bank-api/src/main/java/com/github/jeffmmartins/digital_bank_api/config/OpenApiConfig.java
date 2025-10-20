@@ -16,6 +16,7 @@ import java.util.List;
 @Configuration
 public class OpenApiConfig {
 
+    //Configuração do Swagger OpenAPI
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
