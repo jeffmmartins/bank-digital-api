@@ -16,7 +16,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class Cliente {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
@@ -24,7 +23,7 @@ public class Cliente {
 
     private String nome;
 
-    @Column(unique = true,nullable = false)
+    @Column(unique = true, nullable = false)
     @Setter(AccessLevel.NONE)
     private String cpf;
 
@@ -37,16 +36,5 @@ public class Cliente {
         this.cpf = cpf;
     }
 
-    public void setCpf(String s) {
-    }
-
-    public void setEmail(String mail) {
-    }
-
-    public void setDataDeNascimento(LocalDate of) {
-    }
-
-    public void setTelefone(String s) {
-
-    }
+    // CORREÇÃO: Removidos métodos set inúteis (setCpf, setEmail, etc.)
 }
