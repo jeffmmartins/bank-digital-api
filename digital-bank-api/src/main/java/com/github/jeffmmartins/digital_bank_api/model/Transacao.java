@@ -7,42 +7,42 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.math.BigDecimal; // Importação corrigida
+import java.time.LocalDateTime; // Importação corrigida
 
 @Entity
 @Table(name = "tb_transacao")
-@Setter
+@Setter // CORREÇÃO: Setter global habilitado
 @Getter
 @NoArgsConstructor
 public class Transacao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Setter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE) // ID continua bloqueado
     private Long id;
 
-    @Setter(AccessLevel.NONE)
-    private Double valorDaTransacao;
+    // CORREÇÃO: Usando BigDecimal
+    @Column(precision = 19, scale = 2)
+    private BigDecimal valorDaTransacao;
 
-    @Setter(AccessLevel.NONE)
     @Enumerated(EnumType.STRING)
     private TipoTransacao tipoDeTransacao;
 
-    @Setter(AccessLevel.NONE)
     private LocalDateTime dataDaTransacao;
 
     @ManyToOne
     @JoinColumn(name = "conta_id", nullable = false)
-    @Setter(AccessLevel.NONE)
     private Conta conta;
 
-    @ManyToOne (fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "descricao_id")
     private Descricao descricao;
 
-    public Transacao(Double valorDaTransacao, TipoTransacao tipoDeTransacao, LocalDateTime dataDaTransacao) {
+    // Construtor de conveniência (opcional, já que o service usa setters)
+    public Transacao(BigDecimal valorDaTransacao, TipoTransacao tipoDeTransacao, LocalDateTime dataDaTransacao, Conta conta) {
         this.valorDaTransacao = valorDaTransacao;
         this.tipoDeTransacao = tipoDeTransacao;
         this.dataDaTransacao = dataDaTransacao;
+        this.conta = conta;
     }
 }
