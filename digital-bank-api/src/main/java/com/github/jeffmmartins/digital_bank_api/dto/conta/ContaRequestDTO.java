@@ -5,14 +5,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal; // Importação corrigida
+
 @Getter
+@Setter // Adicionado Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ContaRequestDTO {
 
     private String numeroDaConta;
     private String numeroDaAgencia;
-    private Double saldoDaConta;
 
+    // CORREÇÃO: Usando BigDecimal
+    private BigDecimal saldoDaConta;
 
+    // Adicionado ID do cliente para saber a quem a conta pertence
+    private Long clienteId;
 }
