@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal; // Importação corrigida
+import java.util.ArrayList; // Importação adicionada
 import java.util.List;
 
 @Entity
@@ -14,7 +16,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class Conta {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
@@ -26,28 +27,33 @@ public class Conta {
     @Setter(AccessLevel.NONE)
     private String numeroDaAgencia;
 
-    private Double saldoDaConta = 0.0;
+    // CORREÇÃO: Usando BigDecimal para dinheiro
+    @Column(precision = 19, scale = 2) // Define a precisão no banco
+    private BigDecimal saldoDaConta = BigDecimal.ZERO;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id", nullable = false)
     @Setter(AccessLevel.NONE)
     private Cliente cliente;
 
+    // CORREÇÃO: Inicializando a lista
     @OneToMany(mappedBy = "conta", cascade = CascadeType.ALL, orphanRemoval = true)
     @Setter(AccessLevel.NONE)
-    private List<Transacao> transacoes;
+    private List<Transacao> transacoes = new ArrayList<>();
 
+    // Construtor principal
     public Conta(String numeroDaConta, String numeroDaAgencia, Cliente cliente) {
         this.numeroDaConta = numeroDaConta;
         this.numeroDaAgencia = numeroDaAgencia;
         this.cliente = cliente;
+        this.saldoDaConta = BigDecimal.ZERO;
     }
 
-    // Adiciona um construtor com saldo inicial para facilitar carga de dados
-    public Conta(String numeroDaConta, String numeroDaAgencia, Cliente cliente, Double saldoInicial) {
+    // Construtor para DataLoader
+    public Conta(String numeroDaConta, String numeroDaAgencia, Cliente cliente, BigDecimal saldoInicial) {
         this.numeroDaConta = numeroDaConta;
         this.numeroDaAgencia = numeroDaAgencia;
         this.cliente = cliente;
-        this.saldoDaConta = saldoInicial != null ? saldoInicial : 0.0;
+        this.saldoDaConta = saldoInicial != null ? saldoInicial : BigDecimal.ZERO;
     }
 }
