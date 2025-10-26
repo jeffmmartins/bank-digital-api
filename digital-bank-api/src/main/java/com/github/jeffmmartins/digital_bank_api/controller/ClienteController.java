@@ -1,5 +1,7 @@
 package com.github.jeffmmartins.digital_bank_api.controller;
 
+import com.github.jeffmmartins.digital_bank_api.dto.cliente.ClienteRequestDTO;
+import com.github.jeffmmartins.digital_bank_api.dto.cliente.ClienteResponseDTO;
 import com.github.jeffmmartins.digital_bank_api.model.Cliente;
 import com.github.jeffmmartins.digital_bank_api.service.ClienteService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/clientes")
@@ -22,62 +25,73 @@ public class ClienteController {
 
     private final ClienteService clienteService;
 
+    // --- MÉTODOS DE MAPEAMENTO DTO <-> ENTIDADE ---
+
+    private ClienteResponseDTO toResponseDTO(Cliente cliente) {
+        ClienteResponseDTO dto = new ClienteResponseDTO();
+        dto.setId(cliente.getId());
+        dto.setNome(cliente.getNome());
+        dto.setCpf(cliente.getCpf());
+        return dto;
+    }
+
+    private Cliente toEntity(ClienteRequestDTO dto) {
+        // Usa o construtor que aceita os campos imutáveis (cpf)
+        return new Cliente(dto.getNome(), dto.getCpf());
+    }
+
+    // --- ENDPOINTS CORRIGIDOS ---
+
     @GetMapping
-    @Operation(summary = "Listar todos os clientes", description = "Retorna uma lista com todos os clientes cadastrados")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Clientes encontrados com sucesso"),
-            @ApiResponse(responseCode = "204", description = "Nenhum cliente encontrado")
-    })
-    public ResponseEntity<List<Cliente>> listarTodos() {
+    @Operation(summary = "Listar todos os clientes")
+    public ResponseEntity<List<ClienteResponseDTO>> listarTodos() {
         List<Cliente> clientes = clienteService.listarTodos();
         if (clientes.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok(clientes);
+        // Converte a lista de Entidades para DTOs
+        List<ClienteResponseDTO> dtos = clientes.stream()
+                .map(this::toResponseDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(dtos);
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Buscar cliente por ID", description = "Retorna um cliente específico pelo seu ID")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Cliente encontrado com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Cliente não encontrado")
-    })
-    public ResponseEntity<Cliente> buscarPorId(@PathVariable Long id) {
+    @Operation(summary = "Buscar cliente por ID")
+    public ResponseEntity<ClienteResponseDTO> buscarPorId(@PathVariable Long id) {
         return clienteService.buscarPorId(id)
+                .map(this::toResponseDTO) // Converte a Entidade para DTO
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    @Operation(summary = "Cadastrar cliente", description = "Cadastra um novo cliente")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Cliente cadastrado com sucesso"),
-            @ApiResponse(responseCode = "400", description = "Dados inválidos")
-    })
-    public ResponseEntity<Cliente> cadastrar(@Valid @RequestBody Cliente cliente) {
+    @Operation(summary = "Cadastrar cliente")
+    public ResponseEntity<ClienteResponseDTO> cadastrar(@Valid @RequestBody ClienteRequestDTO clienteDTO) {
+        // Converte DTO para Entidade
+        Cliente cliente = toEntity(clienteDTO);
         Cliente clienteSalvo = clienteService.salvar(cliente);
-        return ResponseEntity.status(HttpStatus.CREATED).body(clienteSalvo);
+        // Converte Entidade salva para DTO de resposta
+        return ResponseEntity.status(HttpStatus.CREATED).body(toResponseDTO(clienteSalvo));
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Atualizar cliente", description = "Atualiza os dados de um cliente existente")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Cliente atualizado com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Cliente não encontrado"),
-            @ApiResponse(responseCode = "400", description = "Dados inválidos")
-    })
-    public ResponseEntity<Cliente> atualizar(@PathVariable Long id, @Valid @RequestBody Cliente cliente) {
-        return clienteService.atualizar(id, cliente)
+    @Operation(summary = "Atualizar cliente")
+    public ResponseEntity<ClienteResponseDTO> atualizar(@PathVariable Long id, @Valid @RequestBody ClienteRequestDTO clienteDTO) {
+        // Para atualização, o service lida com a lógica
+        // O DTO é usado para transportar os novos dados
+        Cliente dadosAtualizados = new Cliente();
+        dadosAtualizados.setNome(clienteDTO.getNome());
+        // O CPF não é atualizado, conforme lógica do service
+
+        return clienteService.atualizar(id, dadosAtualizados)
+                .map(this::toResponseDTO) // Converte para DTO
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Excluir cliente", description = "Remove um cliente do sistema")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Cliente excluído com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Cliente não encontrado")
-    })
+    @Operation(summary = "Excluir cliente")
     public ResponseEntity<Void> excluir(@PathVariable Long id) {
         if (!clienteService.existePorId(id)) {
             return ResponseEntity.notFound().build();
