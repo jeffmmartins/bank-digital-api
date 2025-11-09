@@ -1,52 +1,103 @@
-# Digital Bank API - Um Projeto de Estudo em Java
-**Status:** Em Desenvolvimento
+# 🏦 Digital Bank API
 
-Este projeto é uma **API REST em Java com Spring Boot** que estou desenvolvendo ativamente como parte da minha jornada de estudos em back-end.  
-O objetivo é criar um sistema para **simular um banco digital**, aplicando e consolidando conhecimentos em tecnologias e boas práticas de mercado.
+<p align="center">
+  <img src="https://img.shields.io/badge/Java-17-blue?logo=java&logoColor=white" alt="Java 17">
+  <img src="https://img.shields.io/badge/Spring%20Boot-3.2.5-brightgreen?logo=spring&logoColor=white" alt="Spring Boot 3.2.5">
+  <img src="https://img.shields.io/badge/Database-H2%20(Dev)-red" alt="H2 Database">
+  <img src="https://img.shields.io/badge/Docs-Swagger%20(OpenAPI)-blueviolet" alt="Swagger">
+  <img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT">
+</p>
 
-A cada novo conceito ou módulo que aprendo em **Spring Framework**, **Spring Data JPA** e **desenvolvimento de APIs**, eu os implemento progressivamente neste projeto.  
-Isso me permite colocar a teoria em prática imediatamente, enfrentar desafios reais de desenvolvimento e construir um **portfólio funcional**.
+## 📖 Sobre o Projeto
 
----
+O **Digital Bank API** é um projeto de backend focado em simular as operações essenciais de um banco digital. Esta API RESTful foi construída com **Java 17** e **Spring Boot 3**, seguindo as melhores práticas de desenvolvimento, como arquitetura em camadas (Controller, Service, Repository) e uso de DTOs para validação e tráfego de dados.
 
-## 🚀 Tecnologias e Ferramentas Utilizadas
-- **Linguagem de Programação:** Java
-- **Framework:** Spring Boot (Spring Web e Spring Data JPA)
-- **Banco de Dados:** H2 Database (em memória, para desenvolvimento e testes)
-- **Mapeamento ORM:** JPA (via Spring Data JPA)
-- **Gerenciamento de Dependências:** Maven
-- **Auxiliares:** Lombok (para um código mais limpo)
+O objetivo deste projeto é solidificar conceitos de desenvolvimento de APIs seguras, robustas e escaláveis, prontas para o mercado.
 
----
+## ✨ Status Atual
 
-## 🏗️ Arquitetura e Estrutura
+**Em pleno desenvolvimento!**
 
-O projeto segue a **arquitetura em camadas**, garantindo a separação de responsabilidades.
+Recentemente, superei um desafio de configuração de ambiente (`ExceptionInInitializerError`) relacionado à incompatibilidade entre as versões do JDK (17 vs 24) e o Lombok, demonstrando capacidade de depuração e resolução de problemas complexos de build.
 
-### Estrutura Atual:
-- **model:**  
-  Contém as classes de entidade que representam o domínio do negócio (*Cliente, Conta, Transacao*) e seus tipos (*enums*), com os relacionamentos mapeados.
+## 🚀 Funcionalidades Implementadas
 
-- **repository:**  
-  Camada de acesso a dados. As interfaces (*ClienteRepository, ContaRepository, etc.*) usam o **Spring Data JPA** para se comunicar com o banco de dados.
+* **Gestão de Clientes:**
+  * `POST /api/clientes`: Cadastro de novos clientes (Validado ✅).
+  * `GET /api/clientes`: Listagem de todos os clientes.
+  * `GET /api/clientes/{id}`: Busca de cliente por ID.
+  * `PUT /api/clientes/{id}`: Atualização de dados cadastrais.
+  * `DELETE /api/clientes/{id}`: Exclusão de cliente.
+* **Gestão de Contas:**
+  * `GET /api/contas`: Listagem de todas as contas.
+  * `GET /api/contas/{id}`: Busca de conta por ID.
+  * `GET /api/contas/cliente/{clienteId}`: Busca de contas por ID do cliente.
+* **Operações Bancárias:**
+  * `POST /api/transacoes/deposito`: Realiza um depósito em uma conta.
+  * `POST /api/transacoes/saque`: Realiza um saque, validando o saldo disponível.
+* **Dados Iniciais (Seed):**
+  * Um `DataLoader` popula o banco H2 com clientes e contas pré-definidos para facilitar testes.
 
-- **service:**  
-  Camada da lógica de negócio (em construção).  
-  Aqui são implementadas as regras e validações das operações financeiras (**saque, depósito, transferência, etc.**).
+## 🛠️ Stack Tecnológica
 
-- **resources:**  
-  Diretório de recursos que inclui o arquivo de configuração **application.yml**, definindo o comportamento do banco de dados e outras propriedades.
+Esta API utiliza um conjunto moderno de tecnologias do ecossistema Spring:
 
----
+* **Core:** [Java 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) & [Spring Boot 3.2.5](https://spring.io/projects/spring-boot)
+* **Persistência de Dados:** [Spring Data JPA](https://spring.io/projects/spring-data-jpa) & [Hibernate](https://hibernate.org/)
+* **Banco de Dados (Desenvolvimento):** [H2 Database](https://www.h2database.com/html/main.html) (em memória)
+* **API & Web:** [Spring Web](https://docs.spring.io/spring-framework/reference/web/webmvc.html)
+* **Validação:** [Spring Boot Starter Validation](https://docs.spring.io/spring-boot/docs/current/reference/html/io.html#io.validation) (para validação de DTOs)
+* **Documentação da API:** [SpringDoc (OpenAPI 3)](https://springdoc.org/) (para geração automática do Swagger UI)
+* **Utils:** [Lombok](https://projectlombok.org/) (para redução de código boilerplate)
+* **Build:** [Apache Maven](https://maven.apache.org/)
 
-## 📌 Próximos Passos
-- [ ] Finalizar a camada de serviço com a lógica de todas as operações (*saque, depósito, transferência, etc.*).
-- [ ] Criar a camada de controller para expor os endpoints da API REST.
-- [ ] Implementar a documentação da API com **Swagger/OpenAPI**.
+## ⚙️ Como Executar (Ambiente de Desenvolvimento)
 
----
+Para executar este projeto localmente, siga os passos abaixo.
 
-## 👨‍💻 Sobre o Autor
-Este projeto é um reflexo do meu **comprometimento em me tornar um desenvolvedor back-end Java**.  
-Estou em constante evolução e **aberto a feedbacks e sugestões**.  
-Sinta-se à vontade para explorar o código.  
+### Pré-requisitos
+
+* [Java JDK 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) (ou superior, mas configurado para compilar em Java 17)
+* [Apache Maven](https://maven.apache.org/download.cgi)
+* Sua IDE favorita (ex: IntelliJ IDEA, VSCode com Java Pack)
+
+### Passos
+
+1.  **Clone o repositório:**
+    ```bash
+    git clone [https://github.com/jeffmmartins/digital-bank.git](https://github.com/jeffmmartins/digital-bank.git)
+    cd digital-bank
+    ```
+
+2.  **Execute o projeto (via IDE):**
+  * Importe o projeto como um "Existing Maven Project".
+  * Certifique-se que a IDE está usando o **JDK 17** (veja `File > Project Structure` no IntelliJ).
+  * Localize a classe `DigitalBankApiApplication.java` e execute-a.
+
+3.  **Execute o projeto (via Terminal):**
+    ```bash
+    mvn spring-boot:run
+    ```
+
+### Acessando os Recursos
+
+Após iniciar a aplicação, você pode acessar os seguintes serviços:
+
+* **📄 Documentação Swagger (API):**
+  [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+
+* **🗃️ Console do Banco H2:**
+  [http://localhost:8080/h2-console](http://localhost:8080/h2-console)
+  * **JDBC URL:** `jdbc:h2:mem:digitalbank`
+  * **User Name:** `sa`
+  * **Password:** (deixe em branco)
+
+
+## 👨‍💻 Autor
+
+Feito por **Jefferson Martins**.
+
+* **GitHub:** [@jeffmmartins](https://github.com/jeffmmartins)
+* **LinkedIn:** `https://www.linkedin.com/in/jefferson-martins-mendes/overlay/background-image/`
+
+
